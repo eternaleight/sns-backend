@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema(
     username: {
       type: String,
       required: true,
-      min: 5,
+      min: 3,
       max: 25,
       unique: true,
     },
@@ -50,6 +50,6 @@ const UserSchema = new mongoose.Schema(
       max: 50,
     },
   },
-
   { timestamps: true }
-)
+);
+module.exports = UserSchema

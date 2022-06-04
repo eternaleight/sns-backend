@@ -50,6 +50,9 @@ const UserSchema = new mongoose.Schema(
       max: 50,
     },
   },
+
   { timestamps: true }
 );
-module.exports = UserSchema
+
+module.exports = mongoose.model("User", UserSchema)
+

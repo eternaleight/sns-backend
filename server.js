@@ -19,6 +19,7 @@ mongoose
 
 
 //ミドルウェア
+app.use(express.json())
 app.use("/api/users", userRoute)
 app.use("/api/posts", postsRoute)
 app.use("/api/auth", authRoute)

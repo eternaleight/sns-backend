@@ -86,7 +86,7 @@ router.put("/:id/like", async (req, res) => {
 router.get("/timeline/all", async(req, res) => {
   try {
     const currentUser = await User.findById(req.body.userId)
-    const currentPost = await Post.find({ userId: currentUser._id })
+    const userPosts = await Post.find({ userId: currentUser._id })
     //自分がフォローしているユーザーの投稿内容を全て取得する。
     const friendPost = await Promise.all(
       currentUser.followings.map((friendId) => {

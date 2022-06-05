@@ -39,13 +39,43 @@ router.delete('/:id', async(req, res) => {
 
 //ユーザー情報の取得
 router.get('/:id', async(req, res) => {
+  try {
+    const user = await User.findById(req.params.id)
+    const { password, updatedAt, ...other } = user._doc
+    res.status(200).json(other)
+  } catch(err) {
+    return res.status(500).json(err)
+  }
+})
+
+//ユーザーのフォロー
+router.put("/:id/follow", async (res, req) => {
+  if(req.body.userId !== req.params.id) {
     try {
       const user = await User.findById(req.params.id)
-      const { password, updatedAt, ...other } = user._doc
-      res.status(200).json(other)
+      const currentUser = await User.findById(req.body.userId)
+      //フォロワーに自分がいなかったらフォローできる
+      if (!user.followers.includes(req.body.userId)) {
+        await user.updateOne({
+          $push: {
+            followers: req.body.userId,
+          }
+        })
+        await currentUser.updateOne({
+          $push: {
+            followings: req.params.id,
+          }
+        })
+        return res.status(200).json("フォローに成功しました!")
+      } else {
+        return res.status(403).json("あなたはすでにこのユーザーをフォローしています")
+      }
     } catch(err) {
-      return res.status(500).json(err)
+      return  res.status(500).json(err)
     }
+  } else {
+    return req.status(500).json("自分自身をフォローできません。")
+  }
 })
 
 // router.get("/",(req,res) => {

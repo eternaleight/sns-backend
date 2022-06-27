@@ -5,6 +5,11 @@ const postsRoute = require("./routes/posts")
 const authRoute = require("./routes/auth")
 const uploadRoute = require("./routes/upload")
 const PORT = process.env.PORT || 5001
+const cors = require('cors')
+
+app.use(cors())
+
+ 
 const mongoose = require("mongoose")
 const path = require("path")
 require("dotenv").config()
@@ -36,4 +41,4 @@ app.get("/",(req,res) => {
 //   res.send("users express")
 // })
 
-app.listen(PORT, () => console.log("サーバーが起動しました"))
+app.listen(PORT, () => console.log(`localhost:${PORT}が起動しました`))
